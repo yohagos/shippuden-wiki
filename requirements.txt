@@ -1,0 +1,13 @@
+fastapi
+fastapi_keycloak
+uvicorn
+sqlalchemy
+bcrypt
+python-jose
+python-decouple
+python-multipart
+passlib
+pydantic
+psycopg2-binary
+pytest
+shutils

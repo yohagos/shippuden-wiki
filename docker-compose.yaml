@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: shippuden-db
+    environment:
+      POSTGRES_USER: shippuden
+      POSTGRES_PASSWORD: shippuden
+      POSTGRES_DB: shippuden
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres-data:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - shippuden-network
+    restart: unless-stopped
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.4
+    container_name: shippuden-keycloak
+    command: start-dev --verbose
+    ports:
+      - "9090:8080"
+    depends_on:
+      - postgres
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://shippuden-db:5432/shippuden
+      KC_DB_USERNAME: shippuden
+      KC_DB_PASSWORD: shippuden
+    restart: unless-stopped
+    networks:
+      - shippuden-network
+
+networks:
+  shippuden-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
