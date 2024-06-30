@@ -1,11 +1,9 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
+
 from database.db import Base
 
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 class Village(Base):
     __tablename__ = "villages"
@@ -16,4 +14,9 @@ class Village(Base):
     country = Column(String)
     chief = Column(String, unique=True)
     
+    images = relationship(
+        "ImageFile", 
+        back_populates="village", 
+        primaryjoin="and_(Village.id == foreign(ImageFile.village_id))"
+    )
     

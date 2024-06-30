@@ -1,12 +1,9 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 
 from database.db import Base
 
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 class Character(Base):
     __tablename__ = "characters"
@@ -19,3 +16,8 @@ class Character(Base):
     gender = Column(String)
     is_alive = Column(Boolean, default=True)
     
+    images = relationship(
+        "ImageFile", 
+        back_populates="character", 
+        primaryjoin="and_(Character.id == foreign(ImageFile.character_id))"    
+    )

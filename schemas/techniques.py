@@ -1,5 +1,6 @@
 from enum import Enum
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, ARRAY
+from sqlalchemy import Column, String, Boolean, ARRAY
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID, ENUM
 
 from database.db import Base
@@ -23,7 +24,7 @@ class NatureTypes(str, Enum):
     POISON = "Poison"
     
 
-class Techniques(Base):
+class Technique(Base):
     __tablename__ = "techniques"
 
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
@@ -33,3 +34,9 @@ class Techniques(Base):
     kekkaiGenkai = Column(Boolean)
     clan = Column(String)
     description = Column(String)
+
+    images = relationship(
+        "ImageFile", 
+        back_populates="technique", 
+        primaryjoin="and_(Technique.id == foreign(ImageFile.technique_id))"
+    )
