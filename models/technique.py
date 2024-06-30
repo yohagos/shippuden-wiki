@@ -1,7 +1,9 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
 from uuid import UUID
 from enum import Enum
+
+from .image_file import ShowImageFile
 
 class TechniqueTypes(Enum): 
     TAIJUTSU = "Taijutsu"
@@ -29,3 +31,8 @@ class Technique(BaseModel):
     natureType: Optional[NatureTypes] = None
     kekkaiGenkai: Optional[str] = None
     clan: Optional[str] = None
+    images: Optional[List[ShowImageFile]] = []
+
+class ShowTechniques(Technique):
+    class COnfig():
+        from_attributes = True
