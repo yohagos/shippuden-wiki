@@ -3,15 +3,15 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from database.db import get_db
-from models.technique import Technique
+from models.technique import ShowTechniques
+from services.technique_service import all_techniques
 
-from utils.examples import techniques
 
 router = APIRouter(
     prefix="/techniques",
     tags=["Techniques"],
 )
 
-@router.get('', response_model=List[Technique])
-def get_techniques():
-    return techniques
+@router.get('', response_model=List[ShowTechniques])
+def get_techniques(db: Session = Depends(get_db)):
+    return all_techniques(db)
