@@ -18,6 +18,5 @@ try:
     characters_base.metadata.create_all(engine)
     techniques_base.metadata.create_all(engine)
     villages_base.metadata.create_all(engine)
-    logger.info("Tables created successfully.")
 except Exception as e:
     logger.error("Error creating tables: %s", e)
