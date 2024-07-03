@@ -1,5 +1,7 @@
 fastapi
 fastapi_keycloak
+fastapi_keycloak_middleware
+python-keycloak
 uvicorn
 sqlalchemy
 bcrypt
